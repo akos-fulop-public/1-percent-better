@@ -42,6 +42,33 @@ resource "aws_lambda_function" "test_lambda" {
   ]
 }
 
+data "aws_iam_policy_document" "lambda_dynamodb" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "dynamodb:GetItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+    ]
+
+    resources = ["arn:aws:dynamodb:*:*:table/${aws_dynamodb_table.example.name}"]
+  }
+}
+
+resource "aws_iam_policy" "lambda_dynamodb" {
+  name        = "lambda_dynamodb"
+  path        = "/"
+  description = "IAM policy for accessing DynamoDb from a lambda"
+  policy      = data.aws_iam_policy_document.lambda_dynamodb.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_dynamodb" {
+  role       = aws_iam_role.iam_for_lambda.name
+  policy_arn = aws_iam_policy.lambda_dynamodb.arn
+}
+
+
 # This is to optionally manage the CloudWatch Log Group for the Lambda Function.
 # If skipping this resource configuration, also add "logs:CreateLogGroup" to the IAM policy below.
 resource "aws_cloudwatch_log_group" "example" {
