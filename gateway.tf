@@ -21,6 +21,11 @@ resource "aws_api_gateway_method_settings" "example_settings" {
   depends_on = [ aws_api_gateway_account.demo ]
 }
 
+resource "aws_cloudwatch_log_group" "gateway_loggroup" {
+  name              = "API-Gateway-Execution-Logs_${aws_api_gateway_rest_api.rest_api.id}/${aws_api_gateway_stage.example.stage_name}"
+  retention_in_days = 14
+}
+
 resource "aws_api_gateway_integration" "gateway_integration" {
   rest_api_id = aws_api_gateway_rest_api.rest_api.id
   resource_id = aws_api_gateway_rest_api.rest_api.root_resource_id

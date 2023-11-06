@@ -1,5 +1,10 @@
 resource "aws_api_gateway_account" "demo" {
   cloudwatch_role_arn = aws_iam_role.cloudwatch.arn
+
+  depends_on = [
+    aws_cloudwatch_log_group.gateway_account_loggroup,
+    aws_cloudwatch_log_group.gateway_loggroup
+  ]
 }
 
 data "aws_iam_policy_document" "assume_gateway_role" {
@@ -41,4 +46,9 @@ resource "aws_iam_role_policy" "cloudwatch" {
   name   = "default"
   role   = aws_iam_role.cloudwatch.id
   policy = data.aws_iam_policy_document.cloudwatch.json
+}
+
+resource "aws_cloudwatch_log_group" "gateway_account_loggroup" {
+  name              = "/aws/apigateway/welcome"
+  retention_in_days = 14
 }
