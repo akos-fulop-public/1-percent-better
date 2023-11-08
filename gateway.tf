@@ -2,11 +2,19 @@ resource "aws_api_gateway_rest_api" "rest_api" {
   name = "REST_api"
 }
 
+resource "aws_api_gateway_authorizer" "authorizer" {
+  name          = "authorizer"
+  type          = "COGNITO_USER_POOLS"
+  rest_api_id   = aws_api_gateway_rest_api.rest_api.id
+  provider_arns = [aws_cognito_user_pool.pool.arn]
+}
+
 resource "aws_api_gateway_method" "example" {
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
   http_method   = "GET"
   resource_id   = aws_api_gateway_rest_api.rest_api.root_resource_id
   rest_api_id   = aws_api_gateway_rest_api.rest_api.id
+  authorizer_id = aws_api_gateway_authorizer.authorizer.id
 }
 
 resource "aws_api_gateway_method_settings" "example_settings" {
