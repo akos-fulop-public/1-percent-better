@@ -19,6 +19,11 @@ resource "aws_cognito_user_pool_client" "userpool_client" {
   allowed_oauth_flows                  = ["code", "implicit"]
   allowed_oauth_scopes                 = ["email", "openid"]
   supported_identity_providers         = ["COGNITO"]
+  explicit_auth_flows = ["ALLOW_REFRESH_TOKEN_AUTH","ALLOW_USER_PASSWORD_AUTH"]
+}
+
+output "cognito_client_id" {
+  value = aws_cognito_user_pool_client.userpool_client.id
 }
 
 variable "cognito_user_email" {}
