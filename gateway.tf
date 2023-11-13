@@ -40,7 +40,7 @@ resource "aws_api_gateway_integration" "gateway_integration" {
   http_method = aws_api_gateway_method.example.http_method
   integration_http_method = "POST"
   type        = "AWS"
-  uri = aws_lambda_function.test_lambda.invoke_arn
+  uri = aws_lambda_function.hello_world_lambda.invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "response_200" {
@@ -76,15 +76,10 @@ output "instance_ip_addr" {
   value = aws_api_gateway_stage.example.invoke_url
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_basic" {
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  role = aws_iam_role.iam_for_lambda.name
-}
-
 resource "aws_lambda_permission" "apigw_lambda" {
   statement_id = "AllowExecutionFromAPIGateway"
   action = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.test_lambda.function_name
+  function_name = aws_lambda_function.hello_world_lambda.function_name
   principal = "apigateway.amazonaws.com"
 
   source_arn = "${aws_api_gateway_rest_api.rest_api.execution_arn}/*/*/*"
