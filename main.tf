@@ -9,7 +9,7 @@ variable "profile" {
 terraform {
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
       version = "~> 4.16"
     }
   }
@@ -17,7 +17,7 @@ terraform {
 }
 
 provider "aws" {
-  region  = var.region
+  region = var.region
   profile = var.profile
   default_tags {
     tags = {

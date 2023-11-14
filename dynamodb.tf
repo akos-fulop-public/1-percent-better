@@ -1,6 +1,6 @@
-resource "aws_dynamodb_table" "example" {
-  name             = "example"
-  hash_key         = "TestTableHashKey"
+resource "aws_dynamodb_table" "hello_world_db_table" {
+  name = "hello_world_db_table"
+  hash_key = "TestTableHashKey"
   billing_mode = "PAY_PER_REQUEST"
 
   attribute {

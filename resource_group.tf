@@ -1,5 +1,5 @@
-resource "aws_resourcegroups_group" "test" {
-  name = "test-group"
+resource "aws_resourcegroups_group" "one_percent_resources" {
+  name = "1-percent-resource-group"
 
   resource_query {
     query = <<JSON
