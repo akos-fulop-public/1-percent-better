@@ -53,7 +53,14 @@ output "bucket_public_url" {
 resource "aws_s3_object" "object" {
   bucket = aws_s3_bucket.hello_world_bucket.bucket
   key    = aws_s3_bucket_website_configuration.hello_world_bucket_website_config.index_document[0].suffix
-  source = "${path.root}/website/index.html"
-  etag = filemd5("${path.root}/website/index.html")
+  source = "${path.root}/tmp/index.html"
+  etag = filemd5("${path.root}/tmp/index.html")
   content_type = "text/html"
+
+  depends_on = [ local_file.index_html ]
+}
+
+resource "local_file" "index_html" {
+  content  = templatefile("${path.root}/website/index.html.tftpl", { gateway_url = "${aws_api_gateway_stage.hello_world_gateway_stage.invoke_url}" })
+  filename = "${path.root}/tmp/index.html"
 }
