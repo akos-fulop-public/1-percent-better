@@ -51,7 +51,7 @@ resource "aws_api_gateway_integration" "hello_world_gateway_integration" {
   uri = aws_lambda_function.hello_world_lambda.invoke_arn
 }
 
-resource "aws_api_gateway_method_response" "hello_worl_method_response" {
+resource "aws_api_gateway_method_response" "hello_world_method_response" {
   rest_api_id = aws_api_gateway_rest_api.hello_world_rest_api.id
   resource_id = aws_api_gateway_rest_api.hello_world_rest_api.root_resource_id
   http_method = aws_api_gateway_method.hello_world_method.http_method
@@ -62,7 +62,7 @@ resource "aws_api_gateway_integration_response" "hello_world_integration_respons
   rest_api_id = aws_api_gateway_rest_api.hello_world_rest_api.id
   resource_id = aws_api_gateway_rest_api.hello_world_rest_api.root_resource_id
   http_method = aws_api_gateway_method.hello_world_method.http_method
-  status_code = aws_api_gateway_method_response.hello_worl_method_response.status_code
+  status_code = aws_api_gateway_method_response.hello_world_method_response.status_code
   depends_on = [
     aws_api_gateway_method.hello_world_method,
     aws_api_gateway_integration.hello_world_gateway_integration
