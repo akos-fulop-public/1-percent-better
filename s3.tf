@@ -50,17 +50,28 @@ output "bucket_public_url" {
   value = aws_s3_bucket_website_configuration.hello_world_bucket_website_config.website_endpoint
 }
 
-resource "aws_s3_object" "object" {
-  bucket = aws_s3_bucket.hello_world_bucket.bucket
-  key    = aws_s3_bucket_website_configuration.hello_world_bucket_website_config.index_document[0].suffix
-  source = "${path.root}/tmp/index.html"
-  etag = filemd5("${path.root}/tmp/index.html")
-  content_type = "text/html"
+module "template_files" {
+  source = "hashicorp/dir/template"
 
-  depends_on = [ local_file.index_html ]
+  base_dir = "${path.module}/website"
+  template_vars = {
+    # Pass in any values that you wish to use in your templates.
+    gateway_url = "${aws_api_gateway_stage.hello_world_gateway_stage.invoke_url}",
+    aws_region = "${var.region}",
+    identity_pool_id = "${aws_cognito_user_pool_client.userpool_client.id}",
+    unused_var = "something_unimportant!"
+  }
+  template_file_suffix = ".tftpl"
 }
 
-resource "local_file" "index_html" {
-  content  = templatefile("${path.root}/website/index.html.tftpl", { gateway_url = "${aws_api_gateway_stage.hello_world_gateway_stage.invoke_url}" })
-  filename = "${path.root}/tmp/index.html"
+resource "aws_s3_object" "static_files" {
+  for_each = module.template_files.files
+
+  bucket       = aws_s3_bucket.hello_world_bucket.bucket
+  key          = each.key
+  content_type = each.value.content_type
+  source  = each.value.source_path
+  content = each.value.content
+  source_hash = each.value.digests.md5
+  etag = each.value.digests.md5
 }
