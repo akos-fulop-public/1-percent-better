@@ -6,11 +6,11 @@
 <body>
 	<p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
 	<p>The website page is: ${gateway_url}</p>
-	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1499.0.min.js"></script>
-	<script type="text/javascript">
-
-		AWS.config.region = '${aws_region}';
-		AWS.config.credentials = new AWS.CognitoIdentityCredentials({IdentityPoolId: '${identity_pool_id}'});
+	<button onclick="functionToExecute()">Login</button>
+	<script>
+		function functionToExecute () {
+			location.href = "https://${cognito_domain}.auth.${aws_region}.amazoncognito.com/login?response_type=token&client_id=${cognito_client_id}&redirect_uri=${cloudfront_domain}";
+		}
 	</script>
 </body>
 </html>

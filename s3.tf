@@ -55,11 +55,12 @@ module "template_files" {
 
   base_dir = "${path.module}/website"
   template_vars = {
-    # Pass in any values that you wish to use in your templates.
     gateway_url = "${aws_api_gateway_stage.hello_world_gateway_stage.invoke_url}",
     aws_region = "${var.region}",
-    identity_pool_id = "${aws_cognito_user_pool_client.userpool_client.id}",
-    unused_var = "something_unimportant!"
+    cognito_client_id = "${aws_cognito_user_pool_client.userpool_client.id}",
+    cognito_domain = "${aws_cognito_user_pool_domain.hello_world_signin_domain.domain}"
+    s3_entrypoint = "${aws_s3_bucket_website_configuration.hello_world_bucket_website_config.website_endpoint}"
+    cloudfront_domain = "${local.cloudfront_url}"
   }
   template_file_suffix = ".tftpl"
 }
