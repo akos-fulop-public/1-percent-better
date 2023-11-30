@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+	<title>Hello World App</title>
+</head>
+<body onload="getTokenFromURL()">
+	<p>You are logged in, here's your token:</p>
+	<p id=token_paragraph></p>
+	<script>
+		function getTokenFromURL() {
+			var url = window.location;
+			var access_token = new URLSearchParams(url.hash.substring(1)).get('id_token');
+			if (access_token) {
+				document.getElementById("token_paragraph").innerHTML = access_token;
+			}
+		}
+	</script>
+</body>
+</html>

@@ -41,9 +41,10 @@ resource "aws_cloudfront_distribution" "hello_world_distribution" {
 }
 
 locals {
-  cloudfront_url = "https://${aws_cloudfront_distribution.hello_world_distribution.domain_name}"
+  cloudfront_home_url = "https://${aws_cloudfront_distribution.hello_world_distribution.domain_name}"
+  cloudfront_redirect_url = "https://${aws_cloudfront_distribution.hello_world_distribution.domain_name}/secure.html"
 }
 
 output "cloudfront_url" {
-  value = local.cloudfront_url
+  value = local.cloudfront_home_url
 }

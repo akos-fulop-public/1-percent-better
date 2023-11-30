@@ -18,7 +18,7 @@ resource "aws_cognito_user_pool_domain" "hello_world_signin_domain" {
 resource "aws_cognito_user_pool_client" "userpool_client" {
   name = "Hello-World-userpool-client"
   user_pool_id = aws_cognito_user_pool.hello_world_user_pool.id
-  callback_urls = [local.cloudfront_url]
+  callback_urls = [local.cloudfront_redirect_url]
   allowed_oauth_flows_user_pool_client = true
   allowed_oauth_flows = ["code", "implicit"]
   allowed_oauth_scopes = ["email", "openid"]

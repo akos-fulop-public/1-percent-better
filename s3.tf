@@ -56,7 +56,7 @@ module "template_files" {
     cognito_client_id = "${aws_cognito_user_pool_client.userpool_client.id}",
     cognito_domain = "${aws_cognito_user_pool_domain.hello_world_signin_domain.domain}"
     s3_entrypoint = "${aws_s3_bucket_website_configuration.hello_world_bucket_website_config.website_endpoint}"
-    cloudfront_domain = "${local.cloudfront_url}"
+    redirect_url = "${local.cloudfront_redirect_url}"
   }
   template_file_suffix = ".tftpl"
 }
