@@ -84,7 +84,7 @@ resource "aws_api_gateway_stage" "hello_world_gateway_stage" {
   }
 }
 
-output "instance_ip_addr" {
+output "rest_api_url" {
   value = aws_api_gateway_stage.hello_world_gateway_stage.invoke_url
 }
 

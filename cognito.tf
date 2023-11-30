@@ -26,10 +26,6 @@ resource "aws_cognito_user_pool_client" "userpool_client" {
   explicit_auth_flows = ["ALLOW_REFRESH_TOKEN_AUTH","ALLOW_USER_PASSWORD_AUTH"]
 }
 
-output "cognito_client_id" {
-  value = aws_cognito_user_pool_client.userpool_client.id
-}
-
 variable "cognito_user_email" {}
 
 resource "aws_cognito_user" "hello_world_user" {

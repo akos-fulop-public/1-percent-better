@@ -3,13 +3,23 @@
 <head>
 	<title>This is the title of the webpage!</title>
 </head>
-<body>
-	<p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
-	<p>The website page is: ${gateway_url}</p>
+<body onload="getTokenFromURL()">
+	<p>Welcome to my very basic page. Log in to get your token!</p>
 	<button onclick="functionToExecute()">Login</button>
+
+	<p id=token_paragraph></p>
 	<script>
 		function functionToExecute () {
 			location.href = "https://${cognito_domain}.auth.${aws_region}.amazoncognito.com/login?response_type=token&client_id=${cognito_client_id}&redirect_uri=${cloudfront_domain}";
+		}
+	</script>
+	<script>
+		function getTokenFromURL() {
+			var url = window.location;
+			var access_token = new URLSearchParams(url.hash.substring(1)).get('id_token');
+			if (access_token) {
+				document.getElementById("token_paragraph").innerHTML = access_token;
+			}
 		}
 	</script>
 </body>

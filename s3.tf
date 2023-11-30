@@ -46,10 +46,6 @@ resource "aws_s3_bucket_policy" "hello_world_bucket_policy" {
   depends_on = [ aws_s3_bucket_public_access_block.hello_world_bucket_public_access ]
 }
 
-output "bucket_public_url" {
-  value = aws_s3_bucket_website_configuration.hello_world_bucket_website_config.website_endpoint
-}
-
 module "template_files" {
   source = "hashicorp/dir/template"
 
