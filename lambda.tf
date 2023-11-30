@@ -65,6 +65,12 @@ resource "aws_lambda_function" "hello_world_lambda" {
   runtime = "python3.10"
   source_code_hash = data.archive_file.hello_world_lambda_archive.output_base64sha256
 
+  environment {
+    variables = {
+      table_name = aws_dynamodb_table.hello_world_db_table.name
+    }
+  }
+
   depends_on = [
     aws_cloudwatch_log_group.hello_world_lambda_logs,
   ]
